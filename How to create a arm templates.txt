@@ -1,0 +1,80 @@
+Here’s the updated ARM template where your storage account name (`storage-new-account`) and resource group name (`hasan-new-resource123`) are directly included:
+
+---
+
+### Updated JSON Code
+
+Save this as **`storage-new-account.json`** in the **`my-new`** folder in Visual Studio Code.
+
+```json
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "eastus",
+      "metadata": {
+        "description": "Location of the storage account."
+      }
+    },
+    "sku": {
+      "type": "string",
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Standard_RAGRS",
+        "Standard_ZRS",
+        "Premium_LRS"
+      ],
+      "metadata": {
+        "description": "Storage account SKU."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "storage-new-account",
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('sku')]"
+      },
+      "kind": "StorageV2",
+      "properties": {}
+    }
+  ]
+}
+```
+
+---
+
+### Steps to Deploy the Template
+
+1. **Verify the Resource Group Exists**:
+   Ensure the resource group **`hasan-new-resource123`** exists:
+   ```bash
+   az group create --name hasan-new-resource123 --location eastus
+   ```
+
+2. **Open the `my-new` Folder in VS Code**:
+   Place the file **`storage-new-account.json`** inside the folder.
+
+3. **Open the Terminal in VS Code**:
+   Use `Ctrl + ` (backtick) to open the terminal in VS Code.
+
+4. **Deploy the ARM Template**:
+   Run the following command to deploy the template:
+   ```bash
+   az deployment group create --resource-group hasan-new-resource123 --template-file my-new/storage-new-account.json
+   ```
+
+---
+
+### What’s Changed:
+- **Storage Account Name**: Hardcoded as `storage-new-account`.
+- **Resource Group Name**: Specified directly in the CLI command (`hasan-new-resource123`).
+
+This ensures your specific names are used without needing extra parameters during deployment. Let me know if you need more adjustments! 😊
